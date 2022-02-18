@@ -8,22 +8,22 @@ import javax.persistence.Table;
 
 @Entity
 @Table(name = "categorias")
-
-public enum Categoria {
-
+public class Categoria {
+	
 	@Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
 	private String nome;
 
 	public Categoria(String nome) {
 		this.nome = nome;
 	}
-	 public String getNome() {
-         return nome;
-     }
-     public void setNome(String nome) {
-         this.nome = nome;
-     }
+
+	public String getNome() {
+		return nome;
+	}
+	public void setNome(String nome) {
+		this.nome = nome;
+	}
 
 }
