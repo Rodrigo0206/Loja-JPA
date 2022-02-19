@@ -2,37 +2,46 @@ package br.com.alura.lojajpa.modelo;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.List;
 
+import javax.persistence.CascadeType;
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
 @Entity
-@Table(name = "produtos")
+@Table(name = "pedidos")
 public class Pedido {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
-	private String nome;
-	private String descricao;
-	private BigDecimal preco;
-	private LocalDate dataCadastro = LocalDate.now();
-	
+	@Column(name = "valor_total")
+	private BigDecimal valorTotal;
+	private LocalDate data = LocalDate.now();
+
 	@ManyToOne
-	private Categoria categoria;
+	private Cliente cliente;
 	
+	@OneToMany(mappedBy = "pedido", cascade = CascadeType.ALL)
+	private List<ItemPedido> itens = new ArrayList<>();
+
 	public Pedido() {
 	}
+
+	public Pedido(Cliente cliente) {
+		this.cliente = cliente;
+	}
 	
-	public Pedido(String nome, String descricao, BigDecimal preco, Categoria categoria) {
-		this.nome = nome;
-		this.descricao = descricao;
-		this.preco = preco;
-		this.categoria = categoria;
+	public void adicionarItem(ItemPedido item) {
+		item.setPedido(this);
+		this.itens.add(item);
 	}
 
 	public Long getId() {
@@ -43,44 +52,28 @@ public class Pedido {
 		this.id = id;
 	}
 
-	public String getNome() {
-		return nome;
+	public BigDecimal getValorTotal() {
+		return valorTotal;
 	}
 
-	public void setNome(String nome) {
-		this.nome = nome;
+	public void setValorTotal(BigDecimal valorTotal) {
+		this.valorTotal = valorTotal;
 	}
 
-	public String getDescricao() {
-		return descricao;
+	public LocalDate getData() {
+		return data;
 	}
 
-	public void setDescricao(String descricao) {
-		this.descricao = descricao;
+	public void setData(LocalDate data) {
+		this.data = data;
 	}
 
-	public BigDecimal getPreco() {
-		return preco;
+	public Cliente getCliente() {
+		return cliente;
 	}
 
-	public void setPreco(BigDecimal preco) {
-		this.preco = preco;
-	}
-
-	public LocalDate getDataCadastro() {
-		return dataCadastro;
-	}
-
-	public void setDataCadastro(LocalDate dataCadastro) {
-		this.dataCadastro = dataCadastro;
-	}
-
-	public Categoria getCategoria() {
-		return categoria;
-	}
-
-	public void setCategoria(Categoria categoria) {
-		this.categoria = categoria;
+	public void setCliente(Cliente cliente) {
+		this.cliente = cliente;
 	}
 
 }
