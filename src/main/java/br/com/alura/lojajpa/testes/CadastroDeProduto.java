@@ -42,12 +42,8 @@ public class CadastroDeProduto {
 		produtoDao.cadastrar(celular);
 		
 		em.getTransaction().commit();
+		
 		em.close();
 	}
 
 }
-
-
-
-
-
